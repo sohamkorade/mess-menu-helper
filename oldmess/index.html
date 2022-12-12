@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mess Helper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container" id="main">
+        <div class="row" id="days"></div>
+        <div class="row">
+            <!-- <input type="date" class="column" id="date" onchange="loadtable(this.value)"> -->
+            <input id="search" class="column" autocomplete="off" type="search" autocapitalize="words"
+                placeholder="Type here to search the menu" oninput="search(this.value)">
+        </div>
+        <progress id="progress" class="row"></progress>
+        <h2 id="msg" class="row"></h2>
+        <div class="row" id="messes"></div>
+        <br>
+        <table id="table" class="row"></table>
+        <div class="row">
+            <input type="checkbox" name="showcategories" id="showcategories" onchange="setCheck(this)">
+            <label for="showcategories">Show food categories</label>
+            <input type="checkbox" name="showblankcategories" id="showblankcategories" onchange="setCheck(this)">
+            <label for="showblankcategories">Show blank food categories</label>
+            <input type="checkbox" name="showonlyfavorites" id="showonlyfavorites" onchange="setCheck(this)">
+            <label for="showonlyfavorites">Show only favorites</label>
+        </div>
+        <br>Important links<br>
+        <a href="https://mess.iiit.ac.in/">Mess portal (mess.iiit.ac.in)</a><br>
+        <a href="https://mess.iiit.ac.in/mess/web/student_view_registration.php">View registration</a><br>
+        <a href="https://mess.iiit.ac.in/mess/web/student_change_mess.php">Change registration</a><br>
+        <a href="https://mess.iiit.ac.in/mess/web/student_cancel.php">Cancel meals</a><br>
+        <a id="export" download="favorites.txt">Export favorites</a><br>
+        <!-- <input type='file' onchange='importfav(this)'><br> -->
+        <h4 style="text-align: center;">Made by Soham</h4>
+    </div>
+    <script src="script.min.js"></script>
+</body>
+
+</html>
