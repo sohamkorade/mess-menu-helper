@@ -104,13 +104,13 @@ function updateDOM(specific = null, mark = null) {
             for (let slot of slots) {
                 itemcount = 0
                 const slotstring = `${selectedday} > ${mess} > ${slot}`
-                let tablehtml = `<table class="mx-2 mb-2"><tr><div class="row mx-1">`
+                let tablehtml = `<table class="mx-2 mb-2">`
                 if (favorites.includes(slotstring))
                     tablehtml += `<i data-toggle="button" class="col border-0 btn btn-outline-danger fa fa-heart active" onclick="heart(this,'${slotstring}',0)"></i>`
                 else
                     tablehtml += `<i data-toggle="button" class="col border-0 btn btn-outline-danger fa fa-heart" onclick="heart(this,'${slotstring}')"></i>`
-                tablehtml += `<i data-toggle="modal" data-target="#picview" class="col border-0 btn btn-outline-primary fa fa-image" onclick="loadpic('${slotstring}')"></i></tr>`
-                tablehtml += `</div><th>${slot}</th>`
+                // tablehtml += `<i data-toggle="modal" data-target="#picview" class="col border-0 btn btn-outline-primary fa fa-image" onclick="loadpic('${slotstring}')"></i></tr>`
+                tablehtml += `<th>${slot}</th>`
 
 
                 for (let item of table[mess][slot]) {
@@ -211,6 +211,7 @@ function populatemeals(todaysslots) {
         displayday = selectedday
     $("meals").innerHTML = `<h5>${displayday}'s favorites</h5>
     <table id="meals" class="table table-bordered"><tbody>${html}</tbody></table>`
+    populatewef()
 }
 
 function updatebuttonactivestates() {
@@ -224,4 +225,12 @@ function updatebuttonactivestates() {
             messbutton.classList.add("active")
         else
             messbutton.classList.remove("active")
+}
+
+function populatewef() {
+    let html = ""
+    for (let mess in messes)
+        if (mess == selectedmess)
+            html += `<h5 class="text-success">Last updated on ${messes[mess].wef}</h5>`
+    $("wef").innerHTML = html
 }

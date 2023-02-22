@@ -22,6 +22,15 @@
     </style>
     <script src="ui.min.js" defer></script>
     <script src="logic.min.js" defer></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-44N98MYYLQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-44N98MYYLQ');
+    </script>
 </head>
 
 <body>
@@ -74,9 +83,9 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="https://forms.gle/KZwxXaWKN8AUgfqH6">Contribute photos</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#favorites"
                             onclick="showfavorites()">My favorites</a>
@@ -114,6 +123,7 @@
             <div class="col-md">
                 <ul class="pagination pagination-sm flex-wrap" id="days"></ul>
                 <ul class="pagination flex-wrap" id="messes"></ul>
+                <div id="wef"></div>
             </div>
         </div>
 
@@ -127,7 +137,7 @@
             <label for="showblankcategories">Show blanks</label>
         </div>
         <footer class="my-5 text-muted text-center text-small">
-            <p>© 2021-22 Soham Korade</p>
+            <p>© 2021-23 Soham Korade</p>
             <a class="btn btn-success" id="sharewhatsapp">Share this site via Whatsapp</a>
         </footer>
     </div>
