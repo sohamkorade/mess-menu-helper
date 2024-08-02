@@ -12,7 +12,7 @@ let favorites = [],
     slots = [],
     selectedmess = "All"
 
-fetch("data3.json").then(e => e.json()).then(data => {
+fetch("data5.json").then(e => e.json()).then(data => {
     messes = data.messes
     weekdayoffset = data.weekdayoffset
     populatemesses()

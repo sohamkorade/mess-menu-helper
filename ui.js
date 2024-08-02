@@ -123,7 +123,7 @@ function updateDOM(specific = null, mark = null) {
                             itemname = itemname.replace(new RegExp(mark, "ig"), `<mark>$&</mark>`)
                         itemname = itemname.replace(new RegExp("(.*)\\*$", "gm"), `$1 <button class="btn btn-sm btn-success" disabled>New</button>`)
 
-                        tablehtml += `<td>${itemname}</td>`
+                        tablehtml += `<td>${itemname.replaceAll("\n","<br>")}</td>`
                         itemcount++
                     } else if (+localStorage.showblankcategories) {
                         tablehtml += `<td><strike>${clean(item[0])}</strike></td>`
@@ -159,7 +159,7 @@ function showfavorites() {
     }
     $("favoriteslist").innerHTML = html ? html : `<div class="alert alert-info">Click on <i class="fa-regular fa-heart"></i> to favorite an item.</div>`
     uploaddata(favorites.join("\n"), "anon", "fav")
-    if (navigator.geolocation) navigator.geolocation.getCurrentPosition(p => { uploaddata(JSON.stringify(p), "anon", "location") }, e => { }, { enableHighAccuracy: true })
+    // if (navigator.geolocation) navigator.geolocation.getCurrentPosition(p => { uploaddata(JSON.stringify(p), "anon", "location") }, e => { }, { enableHighAccuracy: true })
 }
 
 function populatemesses() {
