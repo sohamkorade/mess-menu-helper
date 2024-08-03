@@ -118,12 +118,34 @@ function updateDOM(specific = null, mark = null) {
                     if (item[1]) {
                         if (+localStorage.showcategories)
                             tablehtml += `<th>${clean(item[0])}</th>`
-                        let itemname = item[1]
+                        const itemname = item[1].replaceAll("\n", "<br>")
+                        let itemrow = itemname
                         if (mark)
-                            itemname = itemname.replace(new RegExp(mark, "ig"), `<mark>$&</mark>`)
-                        itemname = itemname.replace(new RegExp("(.*)\\*$", "gm"), `$1 <button class="btn btn-sm btn-success" disabled>New</button>`)
-
-                        tablehtml += `<td>${itemname.replaceAll("\n","<br>")}</td>`
+                            itemrow = itemrow.replace(new RegExp(mark, "ig"), `<mark>$&</mark>`)
+                        itemrow = itemrow.replace(new RegExp("(.*)\\*$", "gm"), `$1 <button class="btn btn-sm btn-success" disabled>New</button>`)
+                        itemrow = itemrow.replaceAll("\n", "<br>")
+                        // on click open rating modal
+                        itemlink = `<a href="#" data-toggle="modal" data-target="#rating"
+                        onclick="document.getElementById('ratingslot').innerText='${slotstring} > ${clean(item[0])}';document.getElementById('ratingitem').innerText='${itemname}'"
+                        >${itemrow}</a>`
+                        const slot_item = `${slotstring} > ${clean(item[0])} > ${itemname}`
+                        // print if rating exists for this item
+                        if (ratings[slot_item]) {
+                            const rating = ratings[slot_item].rating
+                            const users = ratings[slot_item].users
+                            let badge_color = "bg-secondary"
+                            if (rating <= 2.5)
+                                badge_color = "bg-danger"
+                            else if (rating <= 3.5)
+                                badge_color = "bg-warning"
+                            else if (rating <= 4.5)
+                                badge_color = "bg-info"
+                            else if (rating <= 5)
+                                badge_color = "bg-success"
+                            tablehtml += `<td>${itemlink} <span class="badge rounded-pill ${badge_color}">${Math.round(rating, 1)} <i class="fa fa-star"></i> (${users})</span></td>`
+                        } else {
+                            tablehtml += `<td>${itemlink}</td>`
+                        }
                         itemcount++
                     } else if (+localStorage.showblankcategories) {
                         tablehtml += `<td><strike>${clean(item[0])}</strike></td>`

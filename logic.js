@@ -10,7 +10,8 @@ let favorites = [],
     upcoming = "",
     timeslot = [],
     slots = [],
-    selectedmess = "All"
+    selectedmess = "All",
+    ratings = {}
 
 fetch("data5.json").then(e => e.json()).then(data => {
     messes = data.messes
@@ -19,6 +20,9 @@ fetch("data5.json").then(e => e.json()).then(data => {
     dateadd(0)
     populatedays()
     updateTimeleft(true)
+    load_ratings().then(e => {
+        updateDOM()
+    })
 })
 
 if (localStorage.favorites) {
@@ -138,7 +142,8 @@ function todaysfavorites() {
 }
 
 function rate(el, rating) {
-    console.log(el.parentElement.getAttribute("data-rating"), rating)
+    const slot_item = document.getElementById('ratingslot').innerText + " > " + document.getElementById('ratingitem').innerText
+    console.log(slot_item, rating)
     const stars = el.parentElement.children
     let i
     for (i = 0; i < rating; i++) {
@@ -149,4 +154,42 @@ function rate(el, rating) {
         stars[i].classList.remove("text-warning")
         stars[i].classList.add("text-secondary")
     }
+
+    // send rating to server
+    const post_url = `post_rating.php?` + new URLSearchParams({ food_name: slot_item, stars: rating })
+    console.log(slot_item, post_url)
+    fetch(post_url).then(e => e.text()).then(e => {
+        document.getElementById('ratingthanks').innerText = "Thank you for your feedback!"
+        load_ratings().then(e => {
+            updateDOM()
+        })
+    }).catch(e => {
+        document.getElementById('ratingthanks').innerText = "Failed to send feedback. Please try again later."
+    })
+}
+
+function reset_rating_modal() {
+    const stars = document.getElementById('ratingstars').children
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].classList.remove("text-warning")
+        stars[i].classList.add("text-secondary")
+    }
+    document.getElementById('ratingthanks').innerText = ""
+}
+
+async function load_ratings() {
+    // clear ratings
+    ratings = {}
+    await fetch("ratings.txt").then(e => e.text())
+        .then(e => {
+            const rows = e.split("\n")
+            for (let row of rows) {
+                const [slot_item, rating, users] = row.split("\t")
+                // hacky
+                if (slot_item[0] == '"' && slot_item[slot_item.length - 1] == '"')
+                    ratings[slot_item.slice(1, -1)] = { rating, users }
+                else
+                    ratings[slot_item] = { rating, users }
+            }
+        })
 }
