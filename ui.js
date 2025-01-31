@@ -112,46 +112,47 @@ function updateDOM(specific = null, mark = null) {
                 // tablehtml += `<i data-toggle="modal" data-target="#picview" class="col border-0 btn btn-outline-primary fa fa-image" onclick="loadpic('${slotstring}')"></i></tr>`
                 tablehtml += `<th>${slot}</th>`
 
-
-                for (let item of table[mess][slot]) {
-                    tablehtml += "<tr>"
-                    if (item[1]) {
-                        if (+localStorage.showcategories)
-                            tablehtml += `<th>${clean(item[0])}</th>`
-                        const itemname = item[1].replaceAll("\n", "<br>")
-                        let itemrow = itemname
-                        if (mark)
-                            itemrow = itemrow.replace(new RegExp(mark, "ig"), `<mark>$&</mark>`)
-                        itemrow = itemrow.replace(new RegExp("(.*)\\*$", "gm"), `$1 <button class="btn btn-sm btn-success" disabled>New</button>`)
-                        itemrow = itemrow.replaceAll("\n", "<br>")
-                        // on click open rating modal
-                        itemlink = `<a href="#" data-toggle="modal" data-target="#rating"
+                if (table[mess][slot]) {
+                    for (let item of table[mess][slot]) {
+                        tablehtml += "<tr>"
+                        if (item[1]) {
+                            if (+localStorage.showcategories)
+                                tablehtml += `<th>${clean(item[0])}</th>`
+                            const itemname = item[1].replaceAll("\n", "<br>")
+                            let itemrow = itemname
+                            if (mark)
+                                itemrow = itemrow.replace(new RegExp(mark, "ig"), `<mark>$&</mark>`)
+                            itemrow = itemrow.replace(new RegExp("(.*)\\*$", "gm"), `$1 <button class="btn btn-sm btn-success" disabled>New</button>`)
+                            itemrow = itemrow.replaceAll("\n", "<br>")
+                            // on click open rating modal
+                            itemlink = `<a href="#" data-toggle="modal" data-target="#rating"
                         onclick="document.getElementById('ratingslot').innerText='${slotstring} > ${clean(item[0])}';document.getElementById('ratingitem').innerText='${itemname}'"
                         >${itemrow}</a>`
-                        const slot_item = `${slotstring} > ${clean(item[0])} > ${itemname}`
-                        // print if rating exists for this item
-                        if (ratings[slot_item]) {
-                            const rating = ratings[slot_item].rating
-                            const users = ratings[slot_item].users
-                            let badge_color = "bg-secondary"
-                            if (rating <= 2.5)
-                                badge_color = "bg-danger"
-                            else if (rating <= 3.5)
-                                badge_color = "bg-warning"
-                            else if (rating <= 4.5)
-                                badge_color = "bg-info"
-                            else if (rating <= 5)
-                                badge_color = "bg-success"
-                            tablehtml += `<td>${itemlink} <span class="badge rounded-pill ${badge_color}">${Math.round(rating, 1)} <i class="fa fa-star"></i> (${users})</span></td>`
-                        } else {
-                            tablehtml += `<td>${itemlink}</td>`
+                            const slot_item = `${slotstring} > ${clean(item[0])} > ${itemname}`
+                            // print if rating exists for this item
+                            if (ratings[slot_item]) {
+                                const rating = ratings[slot_item].rating
+                                const users = ratings[slot_item].users
+                                let badge_color = "bg-secondary"
+                                if (rating <= 2.5)
+                                    badge_color = "bg-danger"
+                                else if (rating <= 3.5)
+                                    badge_color = "bg-warning"
+                                else if (rating <= 4.5)
+                                    badge_color = "bg-info"
+                                else if (rating <= 5)
+                                    badge_color = "bg-success"
+                                tablehtml += `<td>${itemlink} <span class="badge rounded-pill ${badge_color}">${Math.round(rating, 1)} <i class="fa fa-star"></i> (${users})</span></td>`
+                            } else {
+                                tablehtml += `<td>${itemlink}</td>`
+                            }
+                            itemcount++
+                        } else if (+localStorage.showblankcategories) {
+                            tablehtml += `<td><strike>${clean(item[0])}</strike></td>`
+                            itemcount++
                         }
-                        itemcount++
-                    } else if (+localStorage.showblankcategories) {
-                        tablehtml += `<td><strike>${clean(item[0])}</strike></td>`
-                        itemcount++
+                        tablehtml += "</tr>"
                     }
-                    tablehtml += "</tr>"
                 }
                 tablehtml += "</table>"
                 // tablehtml += `<div class="rating text-center" data-rating="${slotstring}">`
