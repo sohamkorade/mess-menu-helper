@@ -13,7 +13,7 @@ let favorites = [],
     selectedmess = "All",
     ratings = {}
 
-fetch("data5.json").then(e => e.json()).then(data => {
+fetch("data6.json").then(e => e.json()).then(data => {
     messes = data.messes
     weekdayoffset = data.weekdayoffset
     populatemesses()
@@ -28,6 +28,15 @@ fetch("data5.json").then(e => e.json()).then(data => {
 if (localStorage.favorites) {
     favorites = localStorage.favorites.split("\n")
     generateexport()
+}
+
+if (localStorage.dismissedNewAlert) {
+    document.getElementById('newalert').style.display='none'
+}
+
+function dismissNewAlert(element){
+    element.parentElement.style.display='none'
+    localStorage.setItem('dismissedNewAlert', 'true')
 }
 
 function clean(x) {
